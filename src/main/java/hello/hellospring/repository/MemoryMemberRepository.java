@@ -40,4 +40,8 @@ public class MemoryMemberRepository implements MemberRepository{
         // store의 키는 id고, 값은 멤버들이었잖아.
         return new ArrayList<>(store.values());
     }
+
+    public void clearStore() {
+        store.clear();
+    }
 }
