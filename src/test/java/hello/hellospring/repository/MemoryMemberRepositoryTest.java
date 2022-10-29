@@ -13,11 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class MemoryMemberRepositoryTest {
 
     // 리스코프 치환원칙 : 상위 타입에 하위 타입의 인스턴스로 바꿀 수 있다.
-    MemberRepository repository = new MemoryMemberRepository();
+    MemberRepository memberRepository = new MemoryMemberRepository();
 
     @AfterEach // 각각의 테스트 후 실행되는 콜백 메소드
     public void afterEach(){
-        repository.clearStore();
+        memberRepository.clearStore();
     }
 
 
@@ -28,9 +28,9 @@ class MemoryMemberRepositoryTest {
         member.setName("spring");
 
         // 실제
-        repository.save(member);
+        memberRepository.save(member);
 
-        Member result = repository.findById(member.getId()).get();
+        Member result = memberRepository.findById(member.getId()).get();
 
         // 비교
         //assertEquals(member, result);
@@ -42,15 +42,15 @@ class MemoryMemberRepositoryTest {
         // 준비 : 멤버1과 멤버 2를 만든다
         Member member1 = new Member();
         member1.setName("spring1");
-        repository.save(member1);
+        memberRepository.save(member1);
 
         Member member2 = new Member();
         member2.setName("spring2");
-        repository.save(member2);
+        memberRepository.save(member2);
 
         // 실제
         // Optional<Member> result = repository.findByName("spring1"); 도 가능
-        Member result = repository.findByName("spring1").get();
+        Member result = memberRepository.findByName("spring1").get();
 
         // 비교
         assertThat(result).isEqualTo(member1);
@@ -61,13 +61,13 @@ class MemoryMemberRepositoryTest {
         // 준비 : 멤버1, 멤버2
         Member member1 = new Member();
         member1.setName("spring1");
-        repository.save(member1);
+        memberRepository.save(member1);
 
         Member member2 = new Member();
         member2.setName("spring1");
-        repository.save(member2);
+        memberRepository.save(member2);
         // 실제
-        List<Member> all =  repository.findAll();
+        List<Member> all =  memberRepository.findAll();
 
         // 비교
         assertThat(all.size()).isEqualTo(2);
