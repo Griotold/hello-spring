@@ -26,15 +26,19 @@ public class MemberService {
      */
 
     public Long join(Member member) {
-        // 리팩토링
-        // 같은 이름을 가진 회원X 
-        // 변수 추출: 컨트롤 + 알트 + v
-        // 메소드 추출: 컨트롤 + 알트 + m
-        validateDuplicateMember(member);
+        // 시간 측정 AOP 활용X
+        long start = System.currentTimeMillis();
 
-        // 로직은 엄청 쉽다.
-        memberRepository.save(member);
-        return member.getId();
+        // 예외가 터지더라도 finally는 실행 된다.
+        try {
+            validateDuplicateMember(member);
+            memberRepository.save(member);
+            return member.getId();
+        } finally {
+            long finish = System.currentTimeMillis();
+            long timeMs = finish - start;
+            System.out.println("join" + timeMs + "ms");
+        }
     }
 
     private void validateDuplicateMember(Member member) {
